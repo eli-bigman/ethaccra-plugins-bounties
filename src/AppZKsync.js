@@ -22,7 +22,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <button onClick={usePlugin}>DO Something</button>
       </header>
     </div>
