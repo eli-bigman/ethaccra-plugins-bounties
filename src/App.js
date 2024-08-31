@@ -1,110 +1,117 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
+'use client'
+
+import React, { useState } from "react";
 import { Web3 } from "web3";
 import { ORAPlugin, Chain, Models } from "@ora-io/web3-plugin-ora";
+import { Box, TextField, Button, Typography } from '@mui/material';
 
-function App() {
-  const [accounts, setAccounts] = useState([]);
-  const [result, setResult] = useState(null);
+export default function ImageGen() {
+  const [prompt, setPrompt] = useState(""); // State for user prompt input
+  const [imageUrl, setImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false); 
+  const [error, setError] = useState(null);
+  const [transactionHash, setTransactionHash] = useState(null);
 
-  // initialize provider (RPC endpoint or injected provider)
   const web3 = new Web3(window.ethereum);
 
-  // register plugin
+  // Register plugin
   web3.registerPlugin(new ORAPlugin(Chain.SEPOLIA));
 
-  
+  async function generateImage() {
+    if (!prompt) {
+      setError("Prompt cannot be empty!");
+      return;
+    }
 
-  async function usePlugin() {
-    const PROMPT = "generate a quiz on any subject";
+    setLoading(true);
+    setError(null);
 
-    const estimateFee = await web3.ora.estimateFee(Models.LLAMA2);
-    console.log("fee", estimateFee);
+    try {
+      const estimateFee = await web3.ora.estimateFee(Models.STABLE_DIFFUSION);
+      console.log("Fee estimated:", estimateFee);
 
-    const accounts = await web3.eth.requestAccounts();
+      // Connect MetaMask
+      const accounts = await web3.eth.requestAccounts();
+      console.log("Accounts connected:", accounts);
 
-    //send tx
-    const receipt = await web3.ora.calculateAIResult(accounts[0], Models.LLAMA2, PROMPT, estimateFee);
-    console.log("transactionHash", receipt.transactionHash);
-  }
-
-  async function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+      // Send transaction
+      const receipt = await web3.ora.calculateAIResult(
+        accounts[0],
+        Models.STABLE_DIFFUSION,
+        prompt,
+        estimateFee
+      );
+      console.log("Transaction hash:", receipt.transactionHash);
+      setTransactionHash(receipt.transactionHash);
+    } catch (error) {
+      setError(`Error generating image: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function fetchResult() {
-    const PROMPT = "generate a quiz on any subject";
+    if (!transactionHash) {
+      setError("No image request found. Please generate an image first.");
+      return;
+    }
 
-    console.log("Waiting for 30 seconds before fetching the result...");
-    await delay(30000);
+    setFetching(true); // Start loading for fetching
+    setError(null);
 
-    const result = await web3.ora.getAIResult(Models.LLAMA2, PROMPT);
-    console.log("Results...",result);
-    setResult(result);
+    // Add a 30-second delay
+    setTimeout(async () => {
+      try {
+        const result = await web3.ora.getAIResult(Models.STABLE_DIFFUSION, prompt);
+        console.log("Result:", result); // Debugging line
+        const ipfsUrl = `https://ipfs.io/ipfs/${result}`;
+        console.log("Generated IPFS URL:", ipfsUrl); // Log the IPFS URL
+        setImageUrl(ipfsUrl); // Set the generated image URL
+      } catch (error) {
+        setError(`Error fetching result: ${error.message}`);
+      } finally {
+        setFetching(false); // End loading for fetching
+      }
+    }, 30000); // 30-second delay
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={usePlugin}>Generate Quiz</button>
-        <button onClick={fetchResult}>Fetch Result</button>
-        {result && <pre>{JSON.stringify(result, null, 2)}</pre>}
-      </header>
-    </div>
+    <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh" gap={2}>
+      <TextField
+        variant="outlined"
+        label="Enter a prompt to generate an image"
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        fullWidth
+        sx={{ maxWidth: 400 }}
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={generateImage}
+        disabled={loading}
+        sx={{ mt: 2 }}
+      >
+        {loading ? "Generating..." : "Generate AI Image"}
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={fetchResult}
+        disabled={fetching || loading || !transactionHash}
+        sx={{ mt: 2 }}
+      >
+        {fetching ? "Fetching (30s wait)..." : "Fetch Result"}
+      </Button>
+
+      {error && <Typography color="error">{error}</Typography>}
+      {fetching && <Typography>Loading... Please wait while we fetch the image.</Typography>}
+      {imageUrl && (
+        <Box mt={4}>
+          <img src={imageUrl} alt="Generated AI" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} />
+        </Box>
+      )}
+    </Box>
   );
 }
-
-export default App;
-
-
-// import React, { useState } from "react";
-// import logo from "./logo.svg";
-// import "./App.css";
-// import { Web3 } from "web3";
-// import { ORAPlugin, Chain, Models } from "@ora-io/web3-plugin-ora";
-
-// function App() {
-//   const [imageUrl, setImageUrl] = useState(null);
-
-//   // initialize provider (RPC endpoint or injected provider)
-//   const web3 = new Web3(window.ethereum);
-
-//   // register plugin
-//   web3.registerPlugin(new ORAPlugin(Chain.SEPOLIA));
-
-//   async function usePlugin() {
-//     const PROMPT = "generate an image of a person from ghana";
-
-//     const estimateFee = await web3.ora.estimateFee(Models.STABLE_DIFFUSION);
-//     console.log("fee", estimateFee);
-
-//     //connect metamask
-//     const accounts = await web3.eth.requestAccounts();
-//     console.log("accounts connected:", accounts);
-
-//     //send tx
-//     const receipt = await web3.ora.calculateAIResult(accounts[0], Models.STABLE_DIFFUSION, PROMPT, estimateFee);
-//     console.log(receipt.transactionHash);
-//   }
-
-//   async function fetchResult() {
-//     //fetch result
-//     const PROMPT = "generate an image of a person from ghana";
-
-//     const result = await web3.ora.getAIResult(Models.STABLE_DIFFUSION, PROMPT);
-//     console.log(result);
-//     const ipfsUrl = `https://ipfs.io/ipfs/${result}`; 
-
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <button onClick={usePlugin}>generate AI</button>
-//         <button onClick={fetchResult}>fetch result</button>
-//         {imageUrl && <img src={imageUrl} alt="Generated AI" />}
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;

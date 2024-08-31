@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.0.1",
     "@ora-io/web3-plugin-ora": "^0.0.6",
     "@swisstronik/web3-plugin-swisstronik": "^1.5.0",
     "@testing-library/jest-dom": "^5.17.0",
