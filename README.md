@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# DonaAI-Dapp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+DonaAI-Dapp is an AI-powered image generator that leverages blockchain technology using Web3.js. This DApp enables users to generate images by providing a prompt, calculating the fees for the generation process, and then creating the image on-chain. The AI model is deployed on the blockchain, ensuring a fully decentralized experience.
 
-## Available Scripts
+## Live Demo
 
-In the project directory, you can run:
+Check out the live version of DonaAI-Dapp: [screeching-evening-brief.on-fleek.app](https://screeching-evening-brief.on-fleek.app)
 
-### `npm start`
+## How It Works
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Provide a Prompt**: Enter a prompt describing the image you want to generate.
+2. **Fee Calculation**: The DApp calculates the fees required to generate the image on the blockchain. The AI model is hosted on-chain, and fees cover the computational costs.
+3. **Generate Image**: After confirming the fee, the image is generated using the on-chain AI model and displayed to the user.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- **Decentralized AI Image Generation**: The AI model is deployed on-chain, ensuring no centralized servers are involved.
+- **Secure Payment with Web3.js**: Integrated with Web3.js for seamless interaction with the blockchain, including secure fee calculation and payment processing.
+- **User-Friendly Interface**: Simple and intuitive interface for entering prompts and viewing generated images.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Tech Stack
 
-### `npm run build`
+- **Frontend**: React.js, Tailwind CSS
+- **Blockchain**: Ethereum, Smart Contracts
+- **Web3.js Plugin**: Used for blockchain interaction
+- **Hosting**: Fleek (IPFS and decentralized hosting)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To run the DonaAI-Dapp locally, follow these steps:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Clone the repository**:
 
-### `npm run eject`
+   ```bash
+   git clone https://github.com/yourusername/DonaAI-Dapp.git
+   cd DonaAI-Dapp
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. **Install dependancy**
+   ```bash
+    npm i
+   
+3. **Start the development server
+    ```bash
+     npm start
