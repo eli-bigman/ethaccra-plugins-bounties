@@ -6,7 +6,7 @@ DonaAI-Dapp is an AI-powered image generator that leverages blockchain technolog
 
 Check out the live version of DonaAI-Dapp: [screeching-evening-brief.on-fleek.app](https://screeching-evening-brief.on-fleek.app)
 
-## How It Works
+## How It Works (Powered by ORA AI Web3js plugin)
 
 1. **Provide a Prompt**: Enter a prompt describing the image you want to generate.
 2. **Fee Calculation**: The DApp calculates the fees required to generate the image on the blockchain. The AI model is hosted on-chain, and fees cover the computational costs.
